@@ -1,0 +1,12 @@
+field;swissdata;opendata.swiss;type;comment
+"title";"title";"dct:title";"str_lang";
+"source_name";"source_name";"dct:publisher";"str_lang";
+"source_url";"source_url";"dcat:accessURL";"str_simple";
+"issued";;"dct:issued";"time";
+"modified";"updated_utc";"dct:modified";"time";
+"description";"details";"dct:description";"str_lang";"Kurze Beschreibung"
+"units";"units";;"str_hierachical_lang";"Label für die Einheiten von 'value', entweder 'all', oder nach Werten in einer definierten Spalte"
+"aggregate";"aggregate";;"str_hierarchical";"Aggregation der Werte von 'value' in den Daten, entweder 'all', oder nach Werten in einer definierten Spalte"
+"dim_order";"dim_order";;"str_list";"Sortierung der Daten"
+"hierarchy";"hierarchy";;"str_hierarchical";"Sortierung und Gruppierung der einzelnen Werte in den Spalten"
+"labels";"labels";;"str_hierarchical_lang";"Labels für die Spalten ('dimnames') und die einzelnen Werte pro Spalte"
