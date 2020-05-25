@@ -1,6 +1,6 @@
 Package: biplaRmeta
 Title: Handling of meta information
-Version: 0.9001
+Version: 0.9002
 License: GPL-3
 Authors@R: person("Flavian", "Imlig", email = "flavian.imlig@bi.zh.ch", role = c("cre", "aut"), comment = c(ORCID = "0000-0002-6305-8088"))
 Description: The package can be used generate, edit, store and format meta information.

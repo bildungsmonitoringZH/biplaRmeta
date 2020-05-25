@@ -2,9 +2,15 @@
 % Please edit documentation in R/languageString-class.R
 \name{parseLangArgs}
 \alias{parseLangArgs}
+\alias{orderLangArgs}
+\alias{lengthLang}
 \title{parse language string arguments}
 \usage{
 parseLangArgs(...)
+
+orderLangArgs(...)
+
+lengthLang(...)
 }
 \arguments{
 \item{...}{arguments}
