@@ -56,7 +56,7 @@ Create a LanguageString object
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{Character arguments, named with two letter language code}
+\item{\code{...}}{character arguments, named with two letter language code}
 }
 \if{html}{\out{</div>}}
 }
