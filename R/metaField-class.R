@@ -1,7 +1,7 @@
 # class for meta fields
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 28.05.2020
+# Date: 29.05.2020
 ###############################################################################
 
 #' R6 class representing the information of one meta field
@@ -110,10 +110,15 @@ MetaField <- R6::R6Class(
         #' Remove any data of a MetaField object,
         clear = function()
         {
+            private$read_fields()
+
             self$data <- switch(private$class,
                                 'character' = NA_character_,
                                 'POSIXct' = as.POSIXct(NA),
-                                'LanguageString' = LanguageString$new(en = 'empty')) # TODO
+                                'LanguageString' = LanguageString$new(en = 'empty'))
+
+            if( private$depth > 1 ) self$data <- list(self$data)
+            private$update_depth()
             invisible(self)
         },
 
@@ -137,6 +142,7 @@ MetaField <- R6::R6Class(
         {
             idx <- which(fields$field == self$name)
             private$depth <- fields$depth[idx]
+            private$length <- fields$length[idx]
             private$class <- as.character(fields$class[idx])
             invisible(self)
         },
@@ -150,6 +156,8 @@ MetaField <- R6::R6Class(
         },
         # @field depth Max depth of field
         depth = 0,
+        # @field length Length of field data entries
+        length = 0,
         # @field class Class of meta information
         class = NA_character_
     ),
@@ -162,7 +170,7 @@ MetaField <- R6::R6Class(
         },
         #' @field is.na Check whether the MetaField object contains any data
         is.na = function() { # TODO
-            data_flat <- unlist(list())
+            data_flat <- unlist(list(self$data))
 
             if( identical(self$data, list()) ) return(TRUE)
             if( rlang::has_length(self$data, 0) ) return(TRUE)

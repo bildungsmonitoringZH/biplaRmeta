@@ -1,7 +1,7 @@
 # data for tests of MetaField-class
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 28.05.2020
+# Date: 29.05.2020
 ###############################################################################
 
 if ( TRUE )
@@ -19,10 +19,6 @@ res$i <- MetaField$new(name = 'hierarchy', data = list(ma = 'm1', mb = list('m2'
 res$j <- MetaField$new(name = 'labels', data = list(dimnames = list(m1 = LanguageString$new(de = 'erstes Merkmal'),
                                                                     m2 = LanguageString$new(en = 'second feature')),
                                                     m1 = list(v1 = LanguageString$new(de = 'erster Wert des ersten Merkmals'))))
-res$k <- MetaField$new(name = 'description', data = list(all = LanguageString$new(de = 'Beschreibung des ganzen Datensatzes'),
-                                                         dim = list(m1 = LanguageString$new(en = 'Description of the first feature'),
-                                                                    m2 = LanguageString$new(fr = 'Description de la deuxieme caracteristique')),
-                                                         m1 = list(v1 = LanguageString$new(de = c('Beschreibung eines Wertes von m1', 'Hier muss man besonders aufpassen')))))
 
 res_empty <- list(
     MetaField$new(name = 'source_url', data = NA_character_),

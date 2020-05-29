@@ -1,7 +1,7 @@
 # test MetaField-class
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 28.05.2020
+# Date: 29.05.2020
 ###############################################################################
 
 context('test MetaField-class')
@@ -67,6 +67,20 @@ test_that("MetaField$sanitize(), return value", {
     expect_is(MetaField$new(name = 'issued', data = list(Sys.time()))$data, 'POSIXct')
 
     expect_is()
+})
+
+test_that("MetaField$clear(), return value", {
+    res_clr <- purrr::map(res, ~.x$clear())
+    expect_equal(res_clr$a$data, LanguageString$new(de = 'leer'))
+    expect_equal(res_clr$b$data, LanguageString$new(de = 'leer'))
+    expect_equal(res_clr$c$data, NA_character_)
+    expect_equal(res_clr$d$data, as.POSIXct(NA))
+    expect_equal(res_clr$e$data, as.POSIXct(NA))
+    expect_equal(res_clr$f$data, list(LanguageString$new(de = 'leer')))
+    expect_equal(res_clr$g$data, list(NA_character_))
+    expect_equal(res_clr$h$data, NA_character_)
+    expect_equal(res_clr$i$data, list(LanguageString$new(de = 'leer'))) # TODO
+    expect_equal(res_clr$j$data, list(LanguageString$new(de = 'leer'))) # TODO
 })
 
 test_that("MetaField$is.na, return value", {
