@@ -8,6 +8,14 @@ R6 class representing the information of one meta field
 
 R6 class representing the information of one meta field
 }
+\examples{
+
+## ------------------------------------------------
+## Method `MetaInfo$new`
+## ------------------------------------------------
+
+m <- MetaInfo$new(title = 'Titel')
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -54,13 +62,21 @@ Create a MetaInfo object
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{Informations for the different meta fields}
+\item{\code{...}}{Informations to populate the meta fields}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A new \code{MetaInfo} object.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{m <- MetaInfo$new(title = 'Titel')
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

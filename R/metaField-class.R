@@ -27,12 +27,23 @@ MetaField <- R6::R6Class(
             self$name <- name
             private$read_fields()
 
-            # assign data
+            # assign data, sanitize and check object
+            self$edit(data = data)
+        },
+
+        #' @description
+        #' Edit the data of a MetaField object
+        #' @param data Value of the field
+        #' @examples
+        #' f <- MetaField$new(name = 'source_url', data = '')
+        #' f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+        #' f$list
+        edit = function(data)
+        {
+            # assign data, sanitize and check object
             self$data <- data
             self$sanitize()
-
-            # check object
-            self$check(silent = FALSE)
+            invisible(self)
         },
 
         #' @description
@@ -49,14 +60,20 @@ MetaField <- R6::R6Class(
             if( private$depth > 1 & !'list' %in% class(self$data) ) self$data <- list(self$data)
 
             # transform simple characters to LanguageString
-            if( private$class == 'LanguageString' & 'character' %in% listClass(self$data)) self$data <- listDefLanguage(self$data)
+            if( private$class == 'LanguageString' & 'character' %in% listClass(self$data) ) self$data <- listDefLanguage(self$data)
 
-            # set correct na value, using $is.na and $clear() # TODO
+            # crop length of data
+            if( private$length <= 1 ) self$head(n = 1)
 
-            # crop length of data if neccesary # TODO
+            # transform date entries
+            if( private$class %in% 'POSIXct' & 'Date' %in% class(self$data) ) self$data <- as.POSIXct(as.POSIXlt(self$data))
+
+            # set correct na value, using $is.na and $clear()
+            if( self$is.na ) self$clear()
 
             # update $depth to data, return
             private$update_depth()
+            self$check(silent = FALSE)
             invisible(self)
         },
 
@@ -103,6 +120,22 @@ MetaField <- R6::R6Class(
             # update $depth to data, return
             private$update_depth()
             if( silent ) return(TRUE)
+            invisible(self)
+        },
+
+        #' @description
+        #' Keep only the first elements of the data
+        #' @param n (integer) number of elements to keep
+        head = function(n = 1L)
+        {
+            # parse arguments
+            assert_that(is.number(n))
+            assert_that(noNA(n))
+            n <- as.integer(round(abs(n), digits = 0))
+            assert_that(is.integer(n))
+
+            # select elements
+            self$data <- listHead(self$data, n = n)
             invisible(self)
         },
 
@@ -169,12 +202,20 @@ MetaField <- R6::R6Class(
             output <- listOutput(list_raw)
         },
         #' @field is.na Check whether the MetaField object contains any data
-        is.na = function() { # TODO
-            data_flat <- unlist(list(self$data))
+        is.na = function() {
+            data_flat <- na.omit(unique(unlist(list(self$data))))
+            if( length(data_flat) < 1 ) return(TRUE)
 
-            if( identical(self$data, list()) ) return(TRUE)
-            if( rlang::has_length(self$data, 0) ) return(TRUE)
-            if( nchar(self$data) < 1 ) return(TRUE)
+            f_check <- function(x) { any(c(
+                is.na(x),
+                nchar(x) < 1,
+                length(x) < 1)) }
+
+            idx_na <- purrr::map_lgl(data_flat,
+                                     ~ifelse(is(.x, 'LanguageString'),
+                                             .x$is.na,
+                                             f_check(.x)))
+            if( all(idx_na) ) return(TRUE)
             return(FALSE)
         }
     )
@@ -230,6 +271,9 @@ listDefLanguage <- function(this)
     }
 }
 
+#' @rdname listDepth
+#' @keywords internal
+#' @return list
 listOutput <- function(this)
 {
     if( is.list(this) )
@@ -239,6 +283,20 @@ listOutput <- function(this)
         return(this$list)
     } else {
         return(this)
+    }
+}
+
+#' @rdname listDepth
+#' @keywords internal
+listHead <- function(this, n = 1L)
+{
+    if( is.list(this) )
+    {
+        return(lapply(this, listHead))
+    } else if( is(this, 'LanguageString') ) {
+        return(this$head(n))
+    } else {
+        return(head(this, n))
     }
 }
 

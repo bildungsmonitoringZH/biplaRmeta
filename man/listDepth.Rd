@@ -4,6 +4,8 @@
 \alias{listDepth}
 \alias{listClass}
 \alias{listDefLanguage}
+\alias{listOutput}
+\alias{listHead}
 \title{get max depth of a nested list}
 \usage{
 listDepth(this, thisdepth = 0)
@@ -11,6 +13,10 @@ listDepth(this, thisdepth = 0)
 listClass(this)
 
 listDefLanguage(this)
+
+listOutput(this)
+
+listHead(this, n = 1L)
 }
 \arguments{
 \item{this}{object to check}
@@ -23,6 +29,8 @@ integer
 character
 
 character
+
+list
 }
 \description{
 get max depth of a nested list

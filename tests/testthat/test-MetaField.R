@@ -12,11 +12,11 @@ test_that("MetaField$new(), argument parsing", {
     expect_error(MetaField$new(name = NA_character_), regexp = 'name contains . missing values')
     expect_error(MetaField$new(name = 'hubi'), regexp = 'is not a valid MetaField name')
 
-    expect_error(MetaField$new(name = 'title', data = list(a = list(b = 'c'))), regexp = 'Data with depth <= 1 expected for field title')
+    expect_error(MetaField$new(name = 'units', data = list(a = list(b = 'c'))), regexp = 'Data with depth <= 2 expected for field units')
     expect_error(MetaField$new(name = 'labels', data = list(a = list(b = list(c = list(d = 'e'))))), regexp = 'Data with depth <= 3 expected for field labels')
     expect_error(MetaField$new(name = 'title', data = 22), regexp = 'Data with class LanguageString expected for field title')
     expect_error(MetaField$new(name = 'issued', data = 'hubi'), regexp = 'Data with class POSIXct expected for field issued')
-    expect_error(MetaField$new(name = 'dim_order', data = numeric(0)), regexp = 'Data with class character expected for field dim_order')
+    expect_error(MetaField$new(name = 'dim_order', data = c(22, 33)), regexp = 'Data with class character expected for field dim_order')
 })
 
 test_that("MetaField$new(), return value", {
@@ -64,9 +64,15 @@ test_that("MetaField$sanitize(), return value", {
     expect_is(a$data, 'LanguageString')
     expect_identical(a$data$list, list(de = 'Titel in Liste'))
     expect_is(MetaField$new(name = 'source_url', data = list('urls' = c('a', 'b')))$data, 'character')
-    expect_is(MetaField$new(name = 'issued', data = list(Sys.time()))$data, 'POSIXct')
+    expect_is(MetaField$new(name = 'issued', data = Sys.time())$data, 'POSIXct')
 
-    expect_is()
+    b <- MetaField$new(name = 'issued', data = Sys.Date())
+    c <- MetaField$new(name = 'issued', data = Sys.time())
+    expect_true(all.equal(b$data, c$data, tolerance = 24*60^2))
+
+    b <- MetaField$new(name = 'modified', data = as.POSIXct('2020-03-04'))
+    c <- MetaField$new(name = 'modified', data = lubridate::ymd('2020-03-04'))
+    expect_true(all.equal(b$data, c$data, tolerance = 24*60^2))
 })
 
 test_that("MetaField$clear(), return value", {
@@ -79,11 +85,54 @@ test_that("MetaField$clear(), return value", {
     expect_equal(res_clr$f$data, list(LanguageString$new(de = 'leer')))
     expect_equal(res_clr$g$data, list(NA_character_))
     expect_equal(res_clr$h$data, NA_character_)
-    expect_equal(res_clr$i$data, list(LanguageString$new(de = 'leer'))) # TODO
-    expect_equal(res_clr$j$data, list(LanguageString$new(de = 'leer'))) # TODO
+    expect_equal(res_clr$i$data, list(NA_character_))
+    expect_equal(res_clr$j$data, list(LanguageString$new(de = 'leer')))
+    expect_equal(res_clr$k$data, list(LanguageString$new(de = 'leer')))
+})
+
+test_that("MetaField$head(), return value, triggered within $initialize()", {
+    a <- MetaField$new(name = 'title' , data = 'Titel')
+    b <- MetaField$new(name = 'title' , data = c('Titel', 'Untertitel'))
+    expect_identical(a$list, b$list)
+
+
 })
 
 test_that("MetaField$is.na, return value", {
-    res_flt <- purrr::map(res, ~na.omit(unname(unlist(list(.x$data)))))
+    a <- MetaField$new(name = 'title', data = 'test')
+    expect_false(a$is.na)
+    a$data$edit(de = 'leer')
+    expect_true(a$is.na)
+
+    b <- MetaField$new(name = 'labels', data = list(dimnames = list(f1 = 'erste Spalte', f2 = 'zweite Spalte')))
+    expect_false(b$is.na)
+    b$data$dimnames$f1$clear()
+    expect_false(b$is.na)
+    b$data$dimnames$f2$clear()
+    expect_true(b$is.na)
+
+    c <- MetaField$new(name = 'source_url', data = '')
+    expect_true(c$is.na)
+    c$data <- NA_character_
+    expect_true(c$is.na)
+    c$data <- c('', NA_character_)
+    expect_true(c$is.na)
+    c$data <- character(0)
+    expect_true(c$is.na)
+    c$data <- numeric(0)
+    expect_true(c$is.na)
+    c$data <- list(character(0), '', list(NA_character_))
+    expect_true(c$is.na)
+    c$data <- list(character(0), '', list(NA_character_, 22))
+    expect_false(c$is.na)
+
+    d <- MetaField$new(name = 'issued', data = Sys.time())
+    expect_false(d$is.na)
+    d$data <- NA
+    expect_true(d$is.na)
+    d$data <- as.POSIXct(NA)
+    expect_true(d$is.na)
+    d$data <- list(logical(0), as.POSIXct(NA))
+    expect_true(d$is.na)
 })
 

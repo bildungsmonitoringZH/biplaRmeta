@@ -16,6 +16,14 @@ R6 class representing the information of one meta field
 
 f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
 f$list
+
+## ------------------------------------------------
+## Method `MetaField$edit`
+## ------------------------------------------------
+
+f <- MetaField$new(name = 'source_url', data = '')
+f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+f$list
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -30,6 +38,8 @@ f$list
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{list}}{The data of a MetaField in list format}
+
+\item{\code{is.na}}{Check whether the MetaField object contains any data}
 }
 \if{html}{\out{</div>}}
 }
@@ -37,8 +47,12 @@ f$list
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MetaField$new()}}
+\item \href{#method-edit}{\code{MetaField$edit()}}
+\item \href{#method-sanitize}{\code{MetaField$sanitize()}}
 \item \href{#method-check}{\code{MetaField$check()}}
-\item \href{#method-print}{\code{MetaField$print()}}
+\item \href{#method-head}{\code{MetaField$head()}}
+\item \href{#method-clear}{\code{MetaField$clear()}}
+\item \href{#method-print_str}{\code{MetaField$print_str()}}
 \item \href{#method-clone}{\code{MetaField$clone()}}
 }
 }
@@ -74,6 +88,43 @@ f$list
 
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-edit"></a>}}
+\if{latex}{\out{\hypertarget{method-edit}{}}}
+\subsection{Method \code{edit()}}{
+Edit the data of a MetaField object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MetaField$edit(data)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{Value of the field}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{f <- MetaField$new(name = 'source_url', data = '')
+f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+f$list
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-sanitize"></a>}}
+\if{latex}{\out{\hypertarget{method-sanitize}{}}}
+\subsection{Method \code{sanitize()}}{
+Format data to fit field definition
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MetaField$sanitize()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-check"></a>}}
 \if{latex}{\out{\hypertarget{method-check}{}}}
 \subsection{Method \code{check()}}{
@@ -94,17 +145,41 @@ flag/self
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
-\subsection{Method \code{print()}}{
-Create a text representation
+\if{html}{\out{<a id="method-head"></a>}}
+\if{latex}{\out{\hypertarget{method-head}{}}}
+\subsection{Method \code{head()}}{
+Keep only the first elements of the data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MetaField$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MetaField$head(n = 1L)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-string
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{n}}{(integer) number of elements to keep}
 }
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clear"></a>}}
+\if{latex}{\out{\hypertarget{method-clear}{}}}
+\subsection{Method \code{clear()}}{
+Remove any data of a MetaField object,
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MetaField$clear()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print_str"></a>}}
+\if{latex}{\out{\hypertarget{method-print_str}{}}}
+\subsection{Method \code{print_str()}}{
+Create a text representation
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MetaField$print_str()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
