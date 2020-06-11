@@ -8,14 +8,6 @@ R6 class representing the information of one meta field
 
 R6 class representing the information of one meta field
 }
-\examples{
-
-## ------------------------------------------------
-## Method `MetaInfo$new`
-## ------------------------------------------------
-
-m <- MetaInfo$new(title = 'Titel')
-}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -43,10 +35,24 @@ m <- MetaInfo$new(title = 'Titel')
 }
 \if{html}{\out{</div>}}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{list}}{The data of the MetaInfo object in list format}
+
+\item{\code{json}}{The data of the MetaInfo object in json format}
+
+\item{\code{is.na}}{Check whether the MetaInfo object contains any data}
+
+\item{\code{printf}}{representation of the MetaInfo Object}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MetaInfo$new()}}
+\item \href{#method-print}{\code{MetaInfo$print()}}
 \item \href{#method-clone}{\code{MetaInfo$clone()}}
 }
 }
@@ -69,12 +75,14 @@ Create a MetaInfo object
 \subsection{Returns}{
 A new \code{MetaInfo} object.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{m <- MetaInfo$new(title = 'Titel')
 }
-\if{html}{\out{</div>}}
-
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Print representation of the MetaField object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MetaInfo$print()}\if{html}{\out{</div>}}
 }
 
 }

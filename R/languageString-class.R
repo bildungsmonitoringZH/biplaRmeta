@@ -1,25 +1,25 @@
 # class for language coded strings
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 28.05.2020
+# Date: 11.06.2020
 ###############################################################################
 
 #' R6 Class representing a string or a character vector in multiple languages
 #'
 #' @importFrom assertthat assert_that noNA
-#' @importFrom dplyr '%>%'
+#' @importFrom dplyr '%>%' mutate filter case_when
 #' @importFrom jsonlite toJSON
 #' @importFrom rlang ':=' '.data'
-#' @importFrom stringr str_c str_detect
+#' @importFrom stringr str_c str_detect str_extract str_replace str_replace_all str_count str_remove
 LanguageString <- R6::R6Class(
     classname = "LanguageString",
     public = list(
         #' @description
         #' Create a LanguageString object
         #' @param ... character arguments, named with two letter language code
-        #' @examples
-        #' s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
-        #' s$list
+        # @examples
+        # s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
+        # s$list
         #' @return A new `LanguageString` object.
         initialize = function(...) {
             self$edit(...)
@@ -27,10 +27,10 @@ LanguageString <- R6::R6Class(
 
         #' @description
         #' Edit the data of a LanguageString object
-        #' @examples
-        #' s <- LanguageString$new(de = 'Hallo Welt')
-        #' s$edit(en = 'Hello World')
-        #' s$list
+        # @examples
+        # s <- LanguageString$new(de = 'Hallo Welt')
+        # s$edit(en = 'Hello World')
+        # s$list
         #' @param ... Strings named with two letter language code
         edit = function(...)
         {
@@ -48,7 +48,7 @@ LanguageString <- R6::R6Class(
         head = function(n = 1L)
         {
             # parse arguments
-            assert_that(is.number(n))
+            assert_that(assertthat::is.number(n))
             assert_that(noNA(n))
             n <- as.integer(round(abs(n), digits = 0))
             assert_that(is.integer(n))
@@ -62,10 +62,17 @@ LanguageString <- R6::R6Class(
         },
 
         #' @description
-        #' Remove any data of a LanguageString object
+        #' Remove any data of the LanguageString object
         clear = function() {
             private$data <- list()
             private$length <- 0
+        },
+        
+        #' @description 
+        #' Print representation of the LanguageString object
+        print = function() {
+            cat(self$printf, sep = "")
+            invisible(self)
         }
     ),
     private = list(
@@ -91,14 +98,21 @@ LanguageString <- R6::R6Class(
             sprintf('<xml_tag xml:lang="%s">%s</xml_tag>', lang, str_c(chr, collapse = " <br />"))
         }),
     active = list(
-        #' @field list The data of a LanguageString in list format
+        #' @field list The data of the LanguageString in list format
         list = function() { private$data },
-        #' @field json The data of a LanguageString in json format
+        #' @field json The data of the LanguageString in json format
         json = function() { if( self$is.na ) { NA_character_ } else { toJSON(self$list) } },
-        #' @field xml The data of a LanguageString in xml format
+        #' @field xml The data of the LanguageString in xml format
         xml = function() { if( self$is.na ) { NA_character_ } else { unname(purrr::imap_chr(self$list, ~private$xml_single(lang = .y, chr = .x))) } },
         #' @field is.na Check whether the LanguageString contains any data
-        is.na = function() { return(private$length < 1) }
+        is.na = function() { return(private$length < 1) },
+        #' @field printf representation of the LanguageString Object
+        printf = function() {
+            if( self$is.na ) { return(NA_character_) }
+            purrr::imap_chr(self$list, ~sprintf('[%s] %s', .y, str_c(.x, collapse = ', '))) %>% unname() %>% str_c(collapse = ', ')
+        }
+        
+        
     ))
 
 # aux functions

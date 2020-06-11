@@ -8,23 +8,6 @@ R6 class representing the information of one meta field
 
 R6 class representing the information of one meta field
 }
-\examples{
-
-## ------------------------------------------------
-## Method `MetaField$new`
-## ------------------------------------------------
-
-f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
-f$list
-
-## ------------------------------------------------
-## Method `MetaField$edit`
-## ------------------------------------------------
-
-f <- MetaField$new(name = 'source_url', data = '')
-f$edit(data = 'https://bi.zh.ch/bildungsplanung')
-f$list
-}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -40,6 +23,8 @@ f$list
 \item{\code{list}}{The data of a MetaField in list format}
 
 \item{\code{is.na}}{Check whether the MetaField object contains any data}
+
+\item{\code{printf}}{representation of the MetaField Object}
 }
 \if{html}{\out{</div>}}
 }
@@ -52,7 +37,7 @@ f$list
 \item \href{#method-check}{\code{MetaField$check()}}
 \item \href{#method-head}{\code{MetaField$head()}}
 \item \href{#method-clear}{\code{MetaField$clear()}}
-\item \href{#method-print_str}{\code{MetaField$print_str()}}
+\item \href{#method-print}{\code{MetaField$print()}}
 \item \href{#method-clone}{\code{MetaField$clone()}}
 }
 }
@@ -77,15 +62,6 @@ Create a MetaField object
 \subsection{Returns}{
 A new \code{MetaField} object.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
-f$list
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-edit"></a>}}
@@ -103,16 +79,6 @@ Edit the data of a MetaField object
 }
 \if{html}{\out{</div>}}
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{f <- MetaField$new(name = 'source_url', data = '')
-f$edit(data = 'https://bi.zh.ch/bildungsplanung')
-f$list
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-sanitize"></a>}}
@@ -172,12 +138,12 @@ Remove any data of a MetaField object,
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print_str"></a>}}
-\if{latex}{\out{\hypertarget{method-print_str}{}}}
-\subsection{Method \code{print_str()}}{
-Create a text representation
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Print representation of the MetaField object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MetaField$print_str()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MetaField$print()}\if{html}{\out{</div>}}
 }
 
 }

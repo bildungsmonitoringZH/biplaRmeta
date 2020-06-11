@@ -1,7 +1,7 @@
 # test MetaField-class
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 29.05.2020
+# Date: 11.06.2020
 ###############################################################################
 
 context('test MetaField-class')
@@ -23,6 +23,7 @@ test_that("MetaField$new(), return value", {
     purrr::walk(res, ~expect_is(.x, 'MetaField'))
     expect_identical(unname(purrr::map_chr(res, ~.x$name)), levels(fields$field))
     purrr::walk(res, ~expect_is(.x$list, 'list'))
+    purrr::walk(res, ~expect_is(.x$printf, 'character'))
     expect_identical(unname(purrr::map_chr(res, ~listClass(.x$data) %>% purrr::keep(~.x %in% fields$class))), as.character(fields$class))
     expect_identical(unname(purrr::map_dbl(res, ~listDepth(.x$data)) + 1), c(1,1,1,1,1,2,2,1,3,3,3))
 })

@@ -1,7 +1,7 @@
 # class for meta fields
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 29.05.2020
+# Date: 11.06.2020
 ###############################################################################
 
 #' R6 class representing the information of one meta field
@@ -12,14 +12,14 @@ MetaField <- R6::R6Class(
         #' Create a MetaField object
         #' @param name (string) Name of the field
         #' @param data Value of the field
-        #' @examples
-        #' f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
-        #' f$list
+        # @examples
+        # f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
+        # f$list
         #' @return A new `MetaField` object.
         initialize = function(name, data)
         {
             # parse arguments
-            assert_that(is.string(name))
+            assert_that(assertthat::is.string(name))
             assert_that(noNA(name))
             assert_that(name %in% fields$field, msg = sprintf('\'%s\' is not a valid MetaField name.', name))
 
@@ -34,10 +34,10 @@ MetaField <- R6::R6Class(
         #' @description
         #' Edit the data of a MetaField object
         #' @param data Value of the field
-        #' @examples
-        #' f <- MetaField$new(name = 'source_url', data = '')
-        #' f$edit(data = 'https://bi.zh.ch/bildungsplanung')
-        #' f$list
+        # @examples
+        # f <- MetaField$new(name = 'source_url', data = '')
+        # f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+        # f$list
         edit = function(data)
         {
             # assign data, sanitize and check object
@@ -84,7 +84,7 @@ MetaField <- R6::R6Class(
         check = function(silent = TRUE)
         {
             # parse argument
-            assert_that(is.flag(silent))
+            assert_that(assertthat::is.flag(silent))
             assert_that(noNA(silent))
 
             # update $depth and $class from fields
@@ -93,7 +93,7 @@ MetaField <- R6::R6Class(
             # read depth of data, check
             data_depth <- listDepth(list(self$data))
             chk_1 <- data_depth <= private$depth
-            assert_that(is.flag(chk_1))
+            assert_that(assertthat::is.flag(chk_1))
             assert_that(noNA(chk_1))
 
             if( silent & !chk_1 ) return(FALSE)
@@ -102,7 +102,7 @@ MetaField <- R6::R6Class(
             # read class of data, check
             data_class <- listClass(self$data)
             chk_2 <- identical(private$class, data_class)
-            assert_that(is.flag(chk_2))
+            assert_that(assertthat::is.flag(chk_2))
             assert_that(noNA(chk_2))
 
             if( silent & !chk_2 ) return(FALSE)
@@ -111,7 +111,7 @@ MetaField <- R6::R6Class(
             # read top class of data, check
             data_top_class_expected <- switch(as.character(private$depth), '1' = private$class, 'list')
             chk_3 <- data_top_class_expected %in% class(self$data)
-            assert_that(is.flag(chk_3))
+            assert_that(assertthat::is.flag(chk_3))
             assert_that(noNA(chk_3))
 
             if( silent & !chk_3 ) return(FALSE)
@@ -129,7 +129,7 @@ MetaField <- R6::R6Class(
         head = function(n = 1L)
         {
             # parse arguments
-            assert_that(is.number(n))
+            assert_that(assertthat::is.number(n))
             assert_that(noNA(n))
             n <- as.integer(round(abs(n), digits = 0))
             assert_that(is.integer(n))
@@ -155,14 +155,13 @@ MetaField <- R6::R6Class(
             invisible(self)
         },
 
-        #' @description
-        #' Create a text representation
-        print_str = function()
-        {
-            str_oneline <- sprintf('%s: list with class %s and depth %.0f', self$name, private$class, private$depth)
-            cat(str_oneline, "\n")
+        #' @description 
+        #' Print representation of the MetaField object
+        print = function() {
+            cat(self$printf, sep = "\n")
             invisible(self)
         },
+        
         #' @field name Actual name of the field
         name = 'none',
         #' @field data Actual data of the field
@@ -217,6 +216,29 @@ MetaField <- R6::R6Class(
                                              f_check(.x)))
             if( all(idx_na) ) return(TRUE)
             return(FALSE)
+        },
+        
+        #' @field printf representation of the MetaField Object
+        printf = function() {
+            if( self$is.na ) { return(NA_character_) }
+            if( private$class %in% 'LanguageString' & private$depth <= 1) { return(sprintf('%s: %s', self$name, self$data$printf)) }
+            if( private$depth <= 1 ) { return(sprintf('%s: %s', self$name, str_c(as.character(self$data), collapse = ', '))) }
+            
+            tbl_str <- data.frame('str_raw' = capture.output(print(self$data)) %>%
+                                  str_replace_all(stringr::fixed('\"'), '') %>%
+                                  str_replace('\\[{2}(\\d)\\]{2}', '$<nn>') %>%
+                                  purrr::discard(~nchar(.x) < 1)) %>%
+                mutate('level' := str_count(.data$str_raw, stringr::fixed('$')) %>% purrr::map_dbl(~replace(.x, which(.x == 0), NA)),
+                       'type' := case_when(.data$level >= 1 ~ 'name', TRUE ~ 'value'),
+                       'str_raw' := case_when(.data$type %in% 'name' ~ sprintf('%s: ', str_extract(.data$str_raw, '[^\\$]+$')),
+                                              .data$type %in% 'value' ~ str_remove(.data$str_raw, '^\\[\\d+\\] *')),
+                       'indent' := .data$level * 4) %>%
+                filter(!str_detect(.data$str_raw, stringr::fixed('<nn>'))) %>%
+                tidyr::fill(.data$indent) %>%
+                mutate('indent' := .data$indent + is.na(.data$level) * 4,
+                       'str' := sprintf('%0*s%s', .data$indent, ' ', .data$str_raw))
+            
+            return(c(str_c(self$name, ':'), tbl_str$str))
         }
     )
 )
@@ -262,7 +284,7 @@ listDefLanguage <- function(this)
 {
     if( is.character(this) )
     {
-        ls <- do.call(LanguageString$new, args = setNames(list(this), as.character(langs$code[1])))
+        ls <- do.call(LanguageString$new, args = stats::setNames(list(this), as.character(langs$code[1])))
         return(ls)
     } else if(is.list(this) ) {
         return(lapply(this, listDefLanguage))
@@ -279,7 +301,7 @@ listOutput <- function(this)
     if( is.list(this) )
     {
         return(lapply(this, listOutput))
-    } else if( is(this, 'LanguageString') ) {
+    } else if( methods::is(this, 'LanguageString') ) {
         return(this$list)
     } else {
         return(this)
@@ -293,10 +315,10 @@ listHead <- function(this, n = 1L)
     if( is.list(this) )
     {
         return(lapply(this, listHead))
-    } else if( is(this, 'LanguageString') ) {
+    } else if( methods::is(this, 'LanguageString') ) {
         return(this$head(n))
     } else {
-        return(head(this, n))
+        return(utils::head(this, n))
     }
 }
 

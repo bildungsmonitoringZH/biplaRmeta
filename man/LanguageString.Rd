@@ -8,33 +8,18 @@ R6 Class representing a string or a character vector in multiple languages
 
 R6 Class representing a string or a character vector in multiple languages
 }
-\examples{
-
-## ------------------------------------------------
-## Method `LanguageString$new`
-## ------------------------------------------------
-
-s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
-s$list
-
-## ------------------------------------------------
-## Method `LanguageString$edit`
-## ------------------------------------------------
-
-s <- LanguageString$new(de = 'Hallo Welt')
-s$edit(en = 'Hello World')
-s$list
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{list}}{The data of a LanguageString in list format}
+\item{\code{list}}{The data of the LanguageString in list format}
 
-\item{\code{json}}{The data of a LanguageString in json format}
+\item{\code{json}}{The data of the LanguageString in json format}
 
-\item{\code{xml}}{The data of a LanguageString in xml format}
+\item{\code{xml}}{The data of the LanguageString in xml format}
 
 \item{\code{is.na}}{Check whether the LanguageString contains any data}
+
+\item{\code{printf}}{representation of the LanguageString Object}
 }
 \if{html}{\out{</div>}}
 }
@@ -45,6 +30,7 @@ s$list
 \item \href{#method-edit}{\code{LanguageString$edit()}}
 \item \href{#method-head}{\code{LanguageString$head()}}
 \item \href{#method-clear}{\code{LanguageString$clear()}}
+\item \href{#method-print}{\code{LanguageString$print()}}
 \item \href{#method-clone}{\code{LanguageString$clone()}}
 }
 }
@@ -67,15 +53,6 @@ Create a LanguageString object
 \subsection{Returns}{
 A new \code{LanguageString} object.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
-s$list
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-edit"></a>}}
@@ -93,16 +70,6 @@ Edit the data of a LanguageString object
 }
 \if{html}{\out{</div>}}
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{s <- LanguageString$new(de = 'Hallo Welt')
-s$edit(en = 'Hello World')
-s$list
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-head"></a>}}
@@ -125,9 +92,19 @@ Keep only the first elements of the language strings
 \if{html}{\out{<a id="method-clear"></a>}}
 \if{latex}{\out{\hypertarget{method-clear}{}}}
 \subsection{Method \code{clear()}}{
-Remove any data of a LanguageString object
+Remove any data of the LanguageString object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LanguageString$clear()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Print representation of the LanguageString object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LanguageString$print()}\if{html}{\out{</div>}}
 }
 
 }

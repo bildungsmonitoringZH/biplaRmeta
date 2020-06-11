@@ -1,7 +1,7 @@
 # test LanguageString-class
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 28.05.2020
+# Date: 11.06.2020
 ###############################################################################
 
 context('test LanguageString-class')
@@ -47,6 +47,7 @@ test_that("LanguageString$new(), return value", {
     expect_true(str_detect(a[[3]]$xml[2], stringr::fixed('c <br />d <br />e')))
 
     expect_is(do.call(LanguageString$new, args = list('de' = 'a')), 'LanguageString')
+    purrr::walk(a, ~expect_true(assertthat::is.string(.x$printf)))
 })
 
 test_that("LanguageString$head(), parse arguments", {
