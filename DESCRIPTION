@@ -18,4 +18,7 @@ Imports:
 	rlang (>= 0.4),
 	stringr (>= 1.4)
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

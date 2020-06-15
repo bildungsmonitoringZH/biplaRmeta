@@ -1,0 +1,196 @@
+---
+title: "Metainformationen für Daten"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{meta_info}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+# library(biplaRmeta)
+devtools::load_all()
+```
+
+# Package installieren
+
+Das Package `biplaRmeta` setzt ein Element voraus:
+
+1. aktuelles und personalisiertes .Rprofile im R_USER Verzeichnis
+    - Vorlage und Installationsanweisung verfügbar unter https://github.com/bildungsmonitoringZH/Rconfig
+
+Zur Installation gibt es zwei Varianten:
+
+1. Die jeweils aktuellste Version des Packages ist zur Installation auf dem G:\ abgelegt
+
+```{r install, eval = FALSE}
+install.packages("G:/03_Arbeiten/Projekte/Statistikprogramm R/packages/biplaRmeta_1.0.zip", repos = NULL, type = "source")
+```
+
+2. Das Package kann via RStudio/git in den lokalen `Rworkspace` geklont und von da installiert werden.
+
+```{r install_altntv, eval = FALSE}
+# git repository url: https://www.dev.statistik.zh.ch:3000/KTZH-Bildung/biplaRmeta.git
+devtools::install(dependencies = FALSE, build_vignettes = TRUE)
+```
+
+# Was sind Daten?
+
+Die hier präsentierte Konzeption von Metainformationen für Daten ist grundsätzlich nicht an einen spezifischen Typ von Datensatz gekoppelt. Sie ist so allgemein und generisch gehalten, dass sie eine breite Palette von Formen, Typen oder Arten von strukturierten Daten zu beschreiben vermag.
+
+Trotzdem steht eine spezifische Form von Daten als Vorstellung bei der Konzeptentwicklung und in den Beispielen im Vordergrund. Diese Daten sind repräsentiert in Tabellenform. Dabei repräsentiert eine Spalte ein Merkmal und eine Zeile einen Fall oder eine Gruppe von Fällen. Die Ausprägung eines Merkmals in einem Fall wird als Wert bezeichnet.
+
+*Beispiel Falltabelle*
+
+```{r ex_data_1}
+data <- tibble('id' = sample(1000:10000, 10),
+               'Merkmal_1' = str_c('Wert_1', sample(letters[1:5], size = 10, replace = TRUE)), 
+               'Merkmal_2' = str_c('Wert_2', sample(letters[11:15], size = 10, replace = TRUE)),
+               'Merkmal_3' = round(runif(10), 2),
+               'Merkmal_4' = round(runif(10, 1, 100))) %>%
+    arrange(.data$id) %>%
+    as.data.frame()
+```
+
+
+
+# Was sind Metainformationen?
+
+Metainformation kann vieles sein. 
+
+Im Package `biplaRmeta` wird einerseits semantisch und anderererseits technisch definiert, wie die Metainformationen einer Dateneinheit definiert sind.
+
+1. *Semantik der Metainformationen*: Welche Elemente haben Metainformationen? Was sagen die einzelnen Elemente über die Daten aus?
+2. *Abbildung der Metainformationen*: Welche Struktur haben Metainformationen? Welche Elemente von Metainformationen werden (technisch) wie dargestellt?
+
+Die Struktur der Metainformationen ist definiert durch 11 sogenannte Felder:
+
+```{r fields, echo = FALSE, results='asis'}
+biplaRmeta::fields %>%
+    select('field':'class') %>%
+    as.data.frame() %>%
+    pander::pandoc.table()
+```
+
+Die elf Felder sind inspiriert durch das Metadaten-Format, das für das [Open Government Data Switzerland project](https://handbook.opendata.swiss/library/ch-dcat-ap.html) entwickelt wurde, sowie durch einen Vorschlag von @christophsax and @mbannert zur Verbesserung der Maschinenlesbarkeit von öffentlich verfügbaren Daten unter der Bezeichnung [SwissData]([https://github.com/swissdata/demo]).
+
+# Semantik der Metainformationen
+
+Jedes der 11 Felder enthält spezifische, inhaltlich klar definierte Informationen über Daten.
+
+## title
+
+Überschrift/Titel/Beschriftung der Daten
+
+## source_Name
+
+Bezeichnung der Datenurheber
+
+## source_URL
+
+* URL unter der die Daten verfügbar sind; ODER
+* URL der Datenurheber
+
+## issued
+
+Datum/Zeit der (Erst-)Publikation der Daten
+
+## modified
+
+Datum/Zeit der letzten Aktualisierung der Daten
+
+## units
+
+Welche Einheiten haben die in den Daten verwendeten, quantitativen Angaben?
+
+*(Beispieltabelle A)*
+
+```{r ex_units_1a, echo = F}
+data <- tibble('group' = sample(LETTERS[1:10], 500, replace = TRUE),
+               'group_2' = sample(LETTERS[25:26], 500, replace = TRUE),
+               'v1' = runif(500, 1, 99),
+               'v2' = runif(500, 100, 1000))
+
+data %>% count(.data$group, name = 'n_sus') %>%
+    mutate('n_tasks' := as.integer(.data$n_sus * runif(10, 5, 10))) %>%
+    as.data.frame()
+```
+
+
+```{r ex_units_1b, eval = F}
+list('all' = 'Anzahl')
+```
+
+*(Beispieltabelle B)*
+
+```{r ex_units_2a, echo = F}
+data %>% count(.data$group) %>%
+    biplaR::percTable() %>%
+    select(.data$group, 'total_sus' := .data$n, .data$sh) %>%
+    as.data.frame()
+```
+
+```{r ex_units_2b, eval = F}
+list('total_sus' = 'Anzahl Schülerinnen und Schüler',
+     'sh' = 'Anteil in Prozent')
+```
+
+## aggregate
+
+Wie sind die quantitativen Angaben in den Daten aggretiert/aggregierbar?
+
+```{r ex_aggregate_1b, eval = F}
+# Beispieltabelle A
+list('all' = 'sum')
+```
+
+*(Beispieltabelle C)*
+
+```{r ex_aggregate_2a, echo = F}
+data %>% group_by(.data$group) %>%
+    summarize('s_sus' := n(),
+           'result' := mean(.data$v1)) %>%
+    ungroup() %>%
+    as.data.frame()
+```
+
+```{r ex_aggregate_2b, eval = F}
+list('n_sus' = 'sum',
+     'result' = 'mean')
+```
+
+## dim_order
+
+Wie sind die Daten geordnet?
+
+*(Beispieltabelle D)*
+
+```{r ex_dimorder_1a, echo = FALSE}
+data %>%
+    count(.data$group, .data$group_2) %>%
+    arrange(.data$group_2) %>%
+    as.data.frame()
+```
+
+```{r ex_dimorder_1b, eval = F}
+c('group_2', 'group')
+```
+
+## hierarchy
+
+Wie sind die Werte einzelner Merkmale gruppiert bzw. hierarchisiert?
+
+```{r ex_hierarchy_1b, eval = F}
+# Beispieltabelle A
+list('group' = list('A' = c('B', 'C'),
+                    'D',
+                    'E' = c('F', 'G', 'H', 'I', 'J')))
+```
+
