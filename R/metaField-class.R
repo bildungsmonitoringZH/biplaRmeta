@@ -1,10 +1,11 @@
 # class for meta fields
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 11.06.2020
+# Date: 16.06.2020
 ###############################################################################
 
 #' R6 class representing the information of one meta field
+#' @export
 MetaField <- R6::R6Class(
     classname = 'MetaField',
     public = list(
@@ -12,9 +13,9 @@ MetaField <- R6::R6Class(
         #' Create a MetaField object
         #' @param name (string) Name of the field
         #' @param data Value of the field
-        # @examples
-        # f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
-        # f$list
+        #' @examples
+        #' f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
+        #' f$list
         #' @return A new `MetaField` object.
         initialize = function(name, data)
         {
@@ -34,10 +35,10 @@ MetaField <- R6::R6Class(
         #' @description
         #' Edit the data of a MetaField object
         #' @param data Value of the field
-        # @examples
-        # f <- MetaField$new(name = 'source_url', data = '')
-        # f$edit(data = 'https://bi.zh.ch/bildungsplanung')
-        # f$list
+        #' @examples
+        #' f <- MetaField$new(name = 'source_url', data = '')
+        #' f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+        #' f$list
         edit = function(data)
         {
             # assign data, sanitize and check object

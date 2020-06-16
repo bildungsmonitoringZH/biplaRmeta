@@ -1,7 +1,7 @@
 # class for language coded strings
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 11.06.2020
+# Date: 16.06.2020
 ###############################################################################
 
 #' R6 Class representing a string or a character vector in multiple languages
@@ -11,15 +11,16 @@
 #' @importFrom jsonlite toJSON
 #' @importFrom rlang ':=' '.data'
 #' @importFrom stringr str_c str_detect str_extract str_replace str_replace_all str_count str_remove
+#' @export
 LanguageString <- R6::R6Class(
     classname = "LanguageString",
     public = list(
         #' @description
         #' Create a LanguageString object
         #' @param ... character arguments, named with two letter language code
-        # @examples
-        # s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
-        # s$list
+        #' @examples
+        #' s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
+        #' s$list
         #' @return A new `LanguageString` object.
         initialize = function(...) {
             self$edit(...)
@@ -27,10 +28,10 @@ LanguageString <- R6::R6Class(
 
         #' @description
         #' Edit the data of a LanguageString object
-        # @examples
-        # s <- LanguageString$new(de = 'Hallo Welt')
-        # s$edit(en = 'Hello World')
-        # s$list
+        #' @examples
+        #' s <- LanguageString$new(de = 'Hallo Welt')
+        #' s$edit(en = 'Hello World')
+        #' s$list
         #' @param ... Strings named with two letter language code
         edit = function(...)
         {

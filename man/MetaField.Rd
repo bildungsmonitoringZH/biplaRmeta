@@ -8,6 +8,23 @@ R6 class representing the information of one meta field
 
 R6 class representing the information of one meta field
 }
+\examples{
+
+## ------------------------------------------------
+## Method `MetaField$new`
+## ------------------------------------------------
+
+f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
+f$list
+
+## ------------------------------------------------
+## Method `MetaField$edit`
+## ------------------------------------------------
+
+f <- MetaField$new(name = 'source_url', data = '')
+f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+f$list
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -62,6 +79,15 @@ Create a MetaField object
 \subsection{Returns}{
 A new \code{MetaField} object.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{f <- MetaField$new(name = 'source_url', data = 'https://bi.zh.ch/bildungsplanung')
+f$list
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-edit"></a>}}
@@ -79,6 +105,16 @@ Edit the data of a MetaField object
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{f <- MetaField$new(name = 'source_url', data = '')
+f$edit(data = 'https://bi.zh.ch/bildungsplanung')
+f$list
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-sanitize"></a>}}

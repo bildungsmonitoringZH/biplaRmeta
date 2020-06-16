@@ -1,12 +1,12 @@
 field;swissdata;opendata.swiss;class;comment;depth;length
 "title";"title";"dct:title";"LanguageString";;1;1
-"source_name";"source_name";"dct:publisher";"LanguageString";;1;1
-"source_url";"source_url";"dcat:accessURL";"character";;1;1
+"source_name";"source_name";"dct:publisher";"LanguageString";;1;Inf
+"source_url";"source_url";"dcat:accessURL";"character";;1;Inf
 "issued";;"dct:issued";"POSIXct";;1;1
 "modified";"updated_utc";"dct:modified";"POSIXct";;1;1
 "units";"units";;"LanguageString";"Label für die Einheiten von 'value', 'all' für den ganzen Datensatz, oder pro Merkmal";2;1
 "aggregate";"aggregate";;"character";"Aggregation der Werte von 'value' in den Daten, 'all' für den ganzen Datensatz, oder pro Merkmal";2;1
-"dim_order";"dim_order";;"character";"Sortierung der Daten";1;999
-"hierarchy";"hierarchy";;"character";"Sortierung und Gruppierung der Daten, für die Werte pro Merkmal";Inf;999
+"dim_order";"dim_order";;"character";"Sortierung der Daten";1;Inf
+"hierarchy";"hierarchy";;"character";"Sortierung und Gruppierung der Daten, für die Werte pro Merkmal";Inf;Inf
 "labels";"labels";;"LanguageString";"Labels, 'dimnames' für die Merkmale, und/oder für die Werte pro Merkmal";3;1
-"description";"details";"dct:description";"LanguageString";"Beschreibung, 'all' für den ganzen Datensatz, für die einzelnen Merkmale insgesamt in 'dim', und/oder für die Werte pro Merkmal";3;999
+"description";"details";"dct:description";"LanguageString";"Beschreibung, 'all' für den ganzen Datensatz, für die einzelnen Merkmale insgesamt in 'dim', und/oder für die Werte pro Merkmal";3;Inf

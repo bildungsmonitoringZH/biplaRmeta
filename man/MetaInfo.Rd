@@ -2,11 +2,19 @@
 % Please edit documentation in R/metaInfo-class.R
 \name{MetaInfo}
 \alias{MetaInfo}
-\title{R6 class representing the information of one meta field}
+\title{R6 class representing the information of one data entity}
 \description{
-R6 class representing the information of one meta field
+R6 class representing the information of one data entity
 
-R6 class representing the information of one meta field
+R6 class representing the information of one data entity
+}
+\examples{
+
+## ------------------------------------------------
+## Method `MetaInfo$new`
+## ------------------------------------------------
+
+m <- MetaInfo$new(title = 'Titel')
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -75,6 +83,14 @@ Create a MetaInfo object
 \subsection{Returns}{
 A new \code{MetaInfo} object.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{m <- MetaInfo$new(title = 'Titel')
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}

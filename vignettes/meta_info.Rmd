@@ -1,6 +1,11 @@
 ---
-title: "Metainformationen für Daten"
-output: rmarkdown::html_vignette
+title: "Metainformationen für Daten (`biplaRmeta`)"
+author: "`r utils::person('Flavian', 'Imlig', email = 'flavian.imlig@bi.zh.ch')`"
+date: "`r format(Sys.Date(), '%d. %B %Y')`"
+output: 
+    rmarkdown::html_vignette:
+        toc: true
+        number_sections: true
 vignette: >
   %\VignetteIndexEntry{meta_info}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,14 +17,18 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+library(dplyr)
+library(stringr)
+library(pander)
 ```
 
-```{r setup}
+```{r setup, echo = F}
 # library(biplaRmeta)
 devtools::load_all()
 ```
 
-# Package installieren
+# Package installieren{-}
 
 Das Package `biplaRmeta` setzt ein Element voraus:
 
@@ -37,7 +46,8 @@ install.packages("G:/03_Arbeiten/Projekte/Statistikprogramm R/packages/biplaRmet
 2. Das Package kann via RStudio/git in den lokalen `Rworkspace` geklont und von da installiert werden.
 
 ```{r install_altntv, eval = FALSE}
-# git repository url: https://www.dev.statistik.zh.ch:3000/KTZH-Bildung/biplaRmeta.git
+# cd ~/Documents/Rworkspace
+# git clone https://www.dev.statistik.zh.ch:3000/KTZH-Bildung/biplaRmeta.git ./biplaRmeta
 devtools::install(dependencies = FALSE, build_vignettes = TRUE)
 ```
 
@@ -49,23 +59,31 @@ Trotzdem steht eine spezifische Form von Daten als Vorstellung bei der Konzepten
 
 *Beispiel Falltabelle*
 
-```{r ex_data_1}
+```{r ex_data_1, echo = F}
 data <- tibble('id' = sample(1000:10000, 10),
                'Merkmal_1' = str_c('Wert_1', sample(letters[1:5], size = 10, replace = TRUE)), 
                'Merkmal_2' = str_c('Wert_2', sample(letters[11:15], size = 10, replace = TRUE)),
                'Merkmal_3' = round(runif(10), 2),
                'Merkmal_4' = round(runif(10, 1, 100))) %>%
-    arrange(.data$id) %>%
+    arrange(.data$id)
+
+as.data.frame(data)
+```
+
+*Beispiel Werttabelle*
+
+```{r ex_data_2, echo = F}
+data %>%
+    group_by(.data$Merkmal_1, .data$Merkmal_2) %>%
+    summarise('Merkmal_3' := round(mean(.data$Merkmal_3), 2),
+              'Merkmal_4' := sum(.data$Merkmal_4)) %>%
+    ungroup() %>%
     as.data.frame()
 ```
 
-
-
 # Was sind Metainformationen?
 
-Metainformation kann vieles sein. 
-
-Im Package `biplaRmeta` wird einerseits semantisch und anderererseits technisch definiert, wie die Metainformationen einer Dateneinheit definiert sind.
+Metainformation kann vieles sein! Im Package `biplaRmeta` wird einerseits semantisch und anderererseits technisch definiert, welche Informationen als Metainformationen einer Dateneinheit gelten.
 
 1. *Semantik der Metainformationen*: Welche Elemente haben Metainformationen? Was sagen die einzelnen Elemente über die Daten aus?
 2. *Abbildung der Metainformationen*: Welche Struktur haben Metainformationen? Welche Elemente von Metainformationen werden (technisch) wie dargestellt?
@@ -73,15 +91,15 @@ Im Package `biplaRmeta` wird einerseits semantisch und anderererseits technisch 
 Die Struktur der Metainformationen ist definiert durch 11 sogenannte Felder:
 
 ```{r fields, echo = FALSE, results='asis'}
-biplaRmeta::fields %>%
-    select('field':'class') %>%
+biplaRmeta:::fields %>%
+    select(1:3) %>%
     as.data.frame() %>%
-    pander::pandoc.table()
+    pandoc.table(justify = 'left', emphasize.strong.cols = 1)
 ```
 
 Die elf Felder sind inspiriert durch das Metadaten-Format, das für das [Open Government Data Switzerland project](https://handbook.opendata.swiss/library/ch-dcat-ap.html) entwickelt wurde, sowie durch einen Vorschlag von @christophsax and @mbannert zur Verbesserung der Maschinenlesbarkeit von öffentlich verfügbaren Daten unter der Bezeichnung [SwissData]([https://github.com/swissdata/demo]).
 
-# Semantik der Metainformationen
+# Semantik
 
 Jedes der 11 Felder enthält spezifische, inhaltlich klar definierte Informationen über Daten.
 
@@ -89,14 +107,15 @@ Jedes der 11 Felder enthält spezifische, inhaltlich klar definierte Information
 
 Überschrift/Titel/Beschriftung der Daten
 
-## source_Name
+## source_name
 
 Bezeichnung der Datenurheber
 
-## source_URL
+## source_url
 
-* URL unter der die Daten verfügbar sind; ODER
+* URL unter der die Daten verfügbar sind
 * URL der Datenurheber
+* weitere relevante URLs
 
 ## issued
 
@@ -132,7 +151,7 @@ list('all' = 'Anzahl')
 
 ```{r ex_units_2a, echo = F}
 data %>% count(.data$group) %>%
-    biplaR::percTable() %>%
+    mutate('sh' := .data$n / sum(.data$n)) %>%
     select(.data$group, 'total_sus' := .data$n, .data$sh) %>%
     as.data.frame()
 ```
@@ -188,9 +207,183 @@ c('group_2', 'group')
 Wie sind die Werte einzelner Merkmale gruppiert bzw. hierarchisiert?
 
 ```{r ex_hierarchy_1b, eval = F}
-# Beispieltabelle A
+# Beispieltabelle D
 list('group' = list('A' = c('B', 'C'),
                     'D',
                     'E' = c('F', 'G', 'H', 'I', 'J')))
 ```
 
+## labels
+
+Wie werden Merkmale und Werte einzelner Merkmale korrekt bezeichnet?
+
+```{r ex_labels_1b, eval = F}
+# Beispieltabelle D
+list('dimnames' = list('group' = 'Altersgruppe',
+                       'group_2' = 'Geschlecht',
+                       'n' = 'Anzahl Personen'),
+     'group' = list('A' = '0 bis 5 Jahre',
+                    'B' = '6 bis 10 Jahre'),
+     'group_2' = list('Y' = 'weiblich',
+                      'Z' = 'männlich'))
+```
+
+## description
+
+Was muss man zu den Daten insgesamt, zu den Merkmalen und den Werten noch wissen?
+
+```{r ex_description_1b, eval = F}
+# Beispieltabelle D
+list('all' = 'Dieser Datensatz enthält alle Fälle, für die eine Tätigkeit nachgewiesen wurde.',
+     'dim' = list('group' = 'Das Alter ist berechnet als Differenz zwischen Geburtsdatum und 15. August 2020.',
+                  'group_1' = 'Im Datensatz sind keine Personen des dritten Geschlechts vertreten.'),
+     'group' = list('A' = 'Rein technisch sind erst Personen ab einem Alter von 6 Monaten erfasst.'))
+```
+
+# technische Repräsentation
+
+Im Package `biplaRmeta` sind drei [S6-Klassen](https://adv-r.hadley.nz/r6.html) definiert. Damit werden die Metainformationen abgebildet.
+
+Zudem ist definiert, welches Feld die Informationen in welcher Form abspeichert:
+
+```{r fields_2, echo = FALSE, results='asis'}
+biplaRmeta:::fields %>%
+    select(.data$field, .data$class, .data$depth, .data$length) %>%
+    as.data.frame() %>%
+    pandoc.table(justify = 'left', emphasize.strong.cols = 1)
+```
+
+## `MetaInfo`
+
+Diese Klasse repräsentiert die Metainformationen für eine Dateneinheit (z.B. eine Datentabelle).
+
+* fields
+    * `$title`
+    * `$source_name`
+    * `$source_url`
+    * `$issued`
+    * `$modified`
+    * `$units`
+    * `$aggregate`
+    * `$dim_order`
+    * `$hierarchy`
+    * `$labels`
+    * `$description`
+    
+* methods
+    * `$initialize()`, alias: `$new()`
+    * `$print()`
+    
+* active bindings
+    * `$list`
+    * `$json`
+    * `$is.na`
+    * `$printf`
+    
+```{r ex_MetaInfo_1}
+a <- MetaInfo$new(title = 'Titel', source_url = 'https://bi.zh.ch/kindergartenbericht')
+
+a
+
+a$list
+
+a$json
+
+a$is.na
+
+str(a)
+
+a$title
+
+a$units
+```
+
+## `MetaField`
+
+Diese Klasse repräsentiert die Metainformationen eines Feldes.
+
+* fields
+    * `$name`
+    * `$data`
+    
+* methods
+    * `$initialize()`, alias: `$new()`
+    * `$edit()`
+    * `$sanitize()`
+    * `$check()`
+    * `$head()`
+    * `$clear()`
+    * `$print()`
+
+* active bindings
+    * `$list`
+    * `$is.na`
+    * `$printf`
+
+* private
+    * `$read_fields()`
+    * `$update_depth()`
+    * `$class`
+    * `$depth`
+    * `$length`
+
+```{r ex_MetaField_1}
+str(a$title)
+
+a$title$edit('neuer Titel')
+
+a$units$is.na
+
+a$units$edit(list('all' = 'Anzahl'))
+
+a
+```
+
+## `LanguageString`
+
+Diese Klasse repräsentiert einen oder mehrere sprachliche Ausdrücke in mehreren Sprachen.
+
+```{r languages}
+biplaRmeta:::langs
+```
+
+* fields
+*-- none --*
+
+* methods
+    * `$initialize()`, alias: `$new()`
+    * `$edit()`
+    * `$head()`
+    * `$clear()`
+    * `$print()`
+
+* active bindings
+    * `$list`
+    * `$json`
+    * `$xml`
+    * `$is.na`
+    * `$printf`
+
+* private
+    * `$edit_single()`
+    * `$xml_single()`
+    * `$data`
+    * `$length`
+    
+```{r ex_LanguageString}
+str(a$title$data)
+
+a$title$data$list
+
+a$title$data$xml
+
+a$title$data$edit(fr = 'nouveau titre')
+
+a$title$list
+
+cat(a$title$data$xml, sep = "\n")
+```
+
+# Beispiele
+
+siehe R-Scripts im Ordner /tests/testthat

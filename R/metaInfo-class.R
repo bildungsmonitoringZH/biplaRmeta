@@ -1,18 +1,19 @@
 # class for meta information
 #
 # Author: Flavian Imlig <flavian.imlig@bi.zh.ch>
-# Date: 11.06.2020
+# Date: 16.06.2020
 ###############################################################################
 
-#' R6 class representing the information of one meta field
+#' R6 class representing the information of one data entity
+#' @export
 MetaInfo <- R6::R6Class(
     classname = 'MetaInfo',
     public = list(
         #' @description
         #' Create a MetaInfo object
         #' @param ... Informations to populate the meta fields
-        # @examples
-        # m <- MetaInfo$new(title = 'Titel')
+        #' @examples
+        #' m <- MetaInfo$new(title = 'Titel')
         #' @return A new `MetaInfo` object.
         initialize = function(...)
         {

@@ -8,6 +8,23 @@ R6 Class representing a string or a character vector in multiple languages
 
 R6 Class representing a string or a character vector in multiple languages
 }
+\examples{
+
+## ------------------------------------------------
+## Method `LanguageString$new`
+## ------------------------------------------------
+
+s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
+s$list
+
+## ------------------------------------------------
+## Method `LanguageString$edit`
+## ------------------------------------------------
+
+s <- LanguageString$new(de = 'Hallo Welt')
+s$edit(en = 'Hello World')
+s$list
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -53,6 +70,15 @@ Create a LanguageString object
 \subsection{Returns}{
 A new \code{LanguageString} object.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{s <- LanguageString$new(de = 'Hallo Welt', en = 'Hello World')
+s$list
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-edit"></a>}}
@@ -70,6 +96,16 @@ Edit the data of a LanguageString object
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{s <- LanguageString$new(de = 'Hallo Welt')
+s$edit(en = 'Hello World')
+s$list
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-head"></a>}}
