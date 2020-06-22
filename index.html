@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Flavian Imlig flavian.imlig@bi.zh.ch" />
+
+
+<title>Metainformationen für Daten (biplaRmeta)</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Metainformationen für Daten (<code>biplaRmeta</code>)</h1>
+<h4 class="author">Flavian Imlig <a href="mailto:flavian.imlig@bi.zh.ch" class="email">flavian.imlig@bi.zh.ch</a></h4>
+<h4 class="date">22. Juni 2020</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#package-installieren">Package installieren</a></li>
+<li><a href="#was-sind-daten"><span class="toc-section-number">1</span> Was sind Daten?</a></li>
+<li><a href="#was-sind-metainformationen"><span class="toc-section-number">2</span> Was sind Metainformationen?</a></li>
+<li><a href="#semantik"><span class="toc-section-number">3</span> Semantik</a><ul>
+<li><a href="#title"><span class="toc-section-number">3.1</span> title</a></li>
+<li><a href="#source_name"><span class="toc-section-number">3.2</span> source_name</a></li>
+<li><a href="#source_url"><span class="toc-section-number">3.3</span> source_url</a></li>
+<li><a href="#issued"><span class="toc-section-number">3.4</span> issued</a></li>
+<li><a href="#modified"><span class="toc-section-number">3.5</span> modified</a></li>
+<li><a href="#units"><span class="toc-section-number">3.6</span> units</a></li>
+<li><a href="#aggregate"><span class="toc-section-number">3.7</span> aggregate</a></li>
+<li><a href="#dim_order"><span class="toc-section-number">3.8</span> dim_order</a></li>
+<li><a href="#hierarchy"><span class="toc-section-number">3.9</span> hierarchy</a></li>
+<li><a href="#labels"><span class="toc-section-number">3.10</span> labels</a></li>
+<li><a href="#description"><span class="toc-section-number">3.11</span> description</a></li>
+</ul></li>
+<li><a href="#technische-repräsentation"><span class="toc-section-number">4</span> technische Repräsentation</a><ul>
+<li><a href="#metainfo"><span class="toc-section-number">4.1</span> <code>MetaInfo</code></a></li>
+<li><a href="#metafield"><span class="toc-section-number">4.2</span> <code>MetaField</code></a></li>
+<li><a href="#languagestring"><span class="toc-section-number">4.3</span> <code>LanguageString</code></a></li>
+</ul></li>
+<li><a href="#beispiele"><span class="toc-section-number">5</span> Beispiele</a></li>
+</ul>
+</div>
+
+<pre><code>#&gt; Loading biplaRmeta
+#&gt; 
+#&gt; Attaching package: &#39;testthat&#39;
+#&gt; The following object is masked from &#39;package:purrr&#39;:
+#&gt; 
+#&gt;     is_null
+#&gt; The following object is masked from &#39;package:dplyr&#39;:
+#&gt; 
+#&gt;     matches
+#&gt; The following object is masked from &#39;package:tidyr&#39;:
+#&gt; 
+#&gt;     matches
+#&gt; The following objects are masked from &#39;package:rlang&#39;:
+#&gt; 
+#&gt;     is_false, is_null, is_true</code></pre>
+<div id="package-installieren" class="section level1 unnumbered">
+<h1>Package installieren</h1>
+<p>Das Package <code>biplaRmeta</code> setzt ein Element voraus:</p>
+<ol style="list-style-type: decimal">
+<li>aktuelles und personalisiertes .Rprofile im R_USER Verzeichnis
+<ul>
+<li>Vorlage und Installationsanweisung verfügbar unter <a href="https://github.com/bildungsmonitoringZH/Rconfig" class="uri">https://github.com/bildungsmonitoringZH/Rconfig</a></li>
+</ul></li>
+</ol>
+<p>Zur Installation gibt es zwei Varianten:</p>
+<ol style="list-style-type: decimal">
+<li>Die jeweils aktuellste Version des Packages ist zur Installation auf dem G: abgelegt</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;G:/03_Arbeiten/Projekte/Statistikprogramm R/packages/biplaRmeta_1.0.zip&quot;</span>, <span class="dt">repos =</span> <span class="ot">NULL</span>, <span class="dt">type =</span> <span class="st">&quot;source&quot;</span>)</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Das Package kann via RStudio/git in den lokalen <code>Rworkspace</code> geklont und von da installiert werden.</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># cd ~/Documents/Rworkspace</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># git clone https://www.dev.statistik.zh.ch:3000/KTZH-Bildung/biplaRmeta.git ./biplaRmeta</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>devtools<span class="op">::</span><span class="kw">install</span>(<span class="dt">dependencies =</span> <span class="ot">FALSE</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="was-sind-daten" class="section level1">
+<h1><span class="header-section-number">1</span> Was sind Daten?</h1>
+<p>Die hier präsentierte Konzeption von Metainformationen für Daten ist grundsätzlich nicht an einen spezifischen Typ von Datensatz gekoppelt. Sie ist so allgemein und generisch gehalten, dass sie eine breite Palette von Formen, Typen oder Arten von strukturierten Daten zu beschreiben vermag.</p>
+<p>Trotzdem steht eine spezifische Form von Daten als Vorstellung bei der Konzeptentwicklung und in den Beispielen im Vordergrund. Diese Daten sind repräsentiert in Tabellenform. Dabei repräsentiert eine Spalte ein Merkmal und eine Zeile einen Fall oder eine Gruppe von Fällen. Die Ausprägung eines Merkmals in einem Fall wird als Wert bezeichnet.</p>
+<p><em>Beispiel Falltabelle</em></p>
+<pre><code>#&gt;      id Merkmal_1 Merkmal_2 Merkmal_3 Merkmal_4
+#&gt; 1  1039   Wert_1a   Wert_2l      1.00        66
+#&gt; 2  1591   Wert_1b   Wert_2o      0.59        81
+#&gt; 3  3854   Wert_1b   Wert_2o      0.67       100
+#&gt; 4  5470   Wert_1d   Wert_2o      0.47        81
+#&gt; 5  5504   Wert_1e   Wert_2k      0.98        33
+#&gt; 6  5526   Wert_1e   Wert_2o      0.61        51
+#&gt; 7  6415   Wert_1e   Wert_2l      0.28        48
+#&gt; 8  7320   Wert_1c   Wert_2o      0.89        31
+#&gt; 9  9542   Wert_1c   Wert_2l      0.64        89
+#&gt; 10 9611   Wert_1e   Wert_2m      0.90         7</code></pre>
+<p><em>Beispiel Werttabelle</em></p>
+<pre><code>#&gt;   Merkmal_1 Merkmal_2 Merkmal_3 Merkmal_4
+#&gt; 1   Wert_1a   Wert_2l      1.00        66
+#&gt; 2   Wert_1b   Wert_2o      0.63       181
+#&gt; 3   Wert_1c   Wert_2l      0.64        89
+#&gt; 4   Wert_1c   Wert_2o      0.89        31
+#&gt; 5   Wert_1d   Wert_2o      0.47        81
+#&gt; 6   Wert_1e   Wert_2k      0.98        33
+#&gt; 7   Wert_1e   Wert_2l      0.28        48
+#&gt; 8   Wert_1e   Wert_2m      0.90         7
+#&gt; 9   Wert_1e   Wert_2o      0.61        51</code></pre>
+</div>
+<div id="was-sind-metainformationen" class="section level1">
+<h1><span class="header-section-number">2</span> Was sind Metainformationen?</h1>
+<p>Metainformation kann vieles sein! Im Package <code>biplaRmeta</code> wird einerseits semantisch und anderererseits technisch definiert, welche Informationen als Metainformationen einer Dateneinheit gelten.</p>
+<ol style="list-style-type: decimal">
+<li><em>Semantik der Metainformationen</em>: Welche Elemente haben Metainformationen? Was sagen die einzelnen Elemente über die Daten aus?</li>
+<li><em>Abbildung der Metainformationen</em>: Welche Struktur haben Metainformationen? Welche Elemente von Metainformationen werden (technisch) wie dargestellt?</li>
+</ol>
+<p>Die Struktur der Metainformationen ist definiert durch 11 sogenannte Felder:</p>
+<table style="width:69%;">
+<colgroup>
+<col width="25%"></col>
+<col width="19%"></col>
+<col width="25%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">field</th>
+<th align="left">swissdata</th>
+<th align="left">opendata.swiss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>title</strong></td>
+<td align="left">title</td>
+<td align="left">dct:title</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>source_name</strong></td>
+<td align="left">source_name</td>
+<td align="left">dct:publisher</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>source_url</strong></td>
+<td align="left">source_url</td>
+<td align="left">dcat:accessURL</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>issued</strong></td>
+<td align="left">NA</td>
+<td align="left">dct:issued</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>modified</strong></td>
+<td align="left">updated_utc</td>
+<td align="left">dct:modified</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>units</strong></td>
+<td align="left">units</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>aggregate</strong></td>
+<td align="left">aggregate</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>dim_order</strong></td>
+<td align="left">dim_order</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>hierarchy</strong></td>
+<td align="left">hierarchy</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>labels</strong></td>
+<td align="left">labels</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>description</strong></td>
+<td align="left">details</td>
+<td align="left">dct:description</td>
+</tr>
+</tbody>
+</table>
+<p>Die elf Felder sind inspiriert durch das Metadaten-Format, das für das <a href="https://handbook.opendata.swiss/library/ch-dcat-ap.html">Open Government Data Switzerland project</a> entwickelt wurde, sowie durch einen Vorschlag von <span class="citation">@christophsax</span> and <span class="citation">@mbannert</span> zur Verbesserung der Maschinenlesbarkeit von öffentlich verfügbaren Daten unter der Bezeichnung <a href="%5Bhttps://github.com/swissdata/demo%5D">SwissData</a>.</p>
+</div>
+<div id="semantik" class="section level1">
+<h1><span class="header-section-number">3</span> Semantik</h1>
+<p>Jedes der 11 Felder enthält spezifische, inhaltlich klar definierte Informationen über Daten.</p>
+<div id="title" class="section level2">
+<h2><span class="header-section-number">3.1</span> title</h2>
+<p>Überschrift/Titel/Beschriftung der Daten</p>
+</div>
+<div id="source_name" class="section level2">
+<h2><span class="header-section-number">3.2</span> source_name</h2>
+<p>Bezeichnung der Datenurheber</p>
+</div>
+<div id="source_url" class="section level2">
+<h2><span class="header-section-number">3.3</span> source_url</h2>
+<ul>
+<li>URL unter der die Daten verfügbar sind</li>
+<li>URL der Datenurheber</li>
+<li>weitere relevante URLs</li>
+</ul>
+</div>
+<div id="issued" class="section level2">
+<h2><span class="header-section-number">3.4</span> issued</h2>
+<p>Datum/Zeit der (Erst-)Publikation der Daten</p>
+</div>
+<div id="modified" class="section level2">
+<h2><span class="header-section-number">3.5</span> modified</h2>
+<p>Datum/Zeit der letzten Aktualisierung der Daten</p>
+</div>
+<div id="units" class="section level2">
+<h2><span class="header-section-number">3.6</span> units</h2>
+<p>Welche Einheiten haben die in den Daten verwendeten, quantitativen Angaben?</p>
+<p><em>(Beispieltabelle A)</em></p>
+<pre><code>#&gt;    group n_sus n_tasks
+#&gt; 1      A    47     317
+#&gt; 2      B    61     520
+#&gt; 3      C    42     277
+#&gt; 4      D    58     304
+#&gt; 5      E    45     284
+#&gt; 6      F    47     277
+#&gt; 7      G    47     276
+#&gt; 8      H    54     412
+#&gt; 9      I    49     382
+#&gt; 10     J    50     366</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">list</span>(<span class="st">&#39;all&#39;</span> =<span class="st"> &#39;Anzahl&#39;</span>)</span></code></pre></div>
+<p><em>(Beispieltabelle B)</em></p>
+<pre><code>#&gt;    group total_sus    sh
+#&gt; 1      A        47 0.094
+#&gt; 2      B        61 0.122
+#&gt; 3      C        42 0.084
+#&gt; 4      D        58 0.116
+#&gt; 5      E        45 0.090
+#&gt; 6      F        47 0.094
+#&gt; 7      G        47 0.094
+#&gt; 8      H        54 0.108
+#&gt; 9      I        49 0.098
+#&gt; 10     J        50 0.100</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">list</span>(<span class="st">&#39;total_sus&#39;</span> =<span class="st"> &#39;Anzahl Schülerinnen und Schüler&#39;,</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">     &#39;</span>sh<span class="st">&#39; = &#39;</span>Anteil <span class="cf">in</span> Prozent<span class="st">&#39;)</span></span></code></pre></div>
+</div>
+<div id="aggregate" class="section level2">
+<h2><span class="header-section-number">3.7</span> aggregate</h2>
+<p>Wie sind die quantitativen Angaben in den Daten aggretiert/aggregierbar?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Beispieltabelle A</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">list</span>(<span class="st">&#39;all&#39;</span> =<span class="st"> &#39;sum&#39;</span>)</span></code></pre></div>
+<p><em>(Beispieltabelle C)</em></p>
+<pre><code>#&gt;    group s_sus   result
+#&gt; 1      A    47 48.33434
+#&gt; 2      B    61 49.22908
+#&gt; 3      C    42 43.39834
+#&gt; 4      D    58 46.41286
+#&gt; 5      E    45 49.72418
+#&gt; 6      F    47 58.63493
+#&gt; 7      G    47 53.73256
+#&gt; 8      H    54 54.62226
+#&gt; 9      I    49 54.91259
+#&gt; 10     J    50 55.79246</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">list</span>(<span class="st">&#39;n_sus&#39;</span> =<span class="st"> &#39;sum&#39;</span>,</span>
+<span id="cb12-2"><a href="#cb12-2"></a>     <span class="st">&#39;result&#39;</span> =<span class="st"> &#39;mean&#39;</span>)</span></code></pre></div>
+</div>
+<div id="dim_order" class="section level2">
+<h2><span class="header-section-number">3.8</span> dim_order</h2>
+<p>Wie sind die Daten geordnet?</p>
+<p><em>(Beispieltabelle D)</em></p>
+<pre><code>#&gt;    group group_2  n
+#&gt; 1      A       Y 26
+#&gt; 2      B       Y 32
+#&gt; 3      C       Y 24
+#&gt; 4      D       Y 25
+#&gt; 5      E       Y 22
+#&gt; 6      F       Y 18
+#&gt; 7      G       Y 23
+#&gt; 8      H       Y 31
+#&gt; 9      I       Y 32
+#&gt; 10     J       Y 25
+#&gt; 11     A       Z 21
+#&gt; 12     B       Z 29
+#&gt; 13     C       Z 18
+#&gt; 14     D       Z 33
+#&gt; 15     E       Z 23
+#&gt; 16     F       Z 29
+#&gt; 17     G       Z 24
+#&gt; 18     H       Z 23
+#&gt; 19     I       Z 17
+#&gt; 20     J       Z 25</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">c</span>(<span class="st">&#39;group_2&#39;</span>, <span class="st">&#39;group&#39;</span>)</span></code></pre></div>
+</div>
+<div id="hierarchy" class="section level2">
+<h2><span class="header-section-number">3.9</span> hierarchy</h2>
+<p>Wie sind die Werte einzelner Merkmale gruppiert bzw. hierarchisiert?</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Beispieltabelle D</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">list</span>(<span class="st">&#39;group&#39;</span> =<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;A&#39;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>),</span>
+<span id="cb15-3"><a href="#cb15-3"></a>                    <span class="st">&#39;D&#39;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4"></a>                    <span class="st">&#39;E&#39;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;F&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;J&#39;</span>)))</span></code></pre></div>
+</div>
+<div id="labels" class="section level2">
+<h2><span class="header-section-number">3.10</span> labels</h2>
+<p>Wie werden Merkmale und Werte einzelner Merkmale korrekt bezeichnet?</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Beispieltabelle D</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">list</span>(<span class="st">&#39;dimnames&#39;</span> =<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;group&#39;</span> =<span class="st"> &#39;Altersgruppe&#39;</span>,</span>
+<span id="cb16-3"><a href="#cb16-3"></a>                       <span class="st">&#39;group_2&#39;</span> =<span class="st"> &#39;Geschlecht&#39;</span>,</span>
+<span id="cb16-4"><a href="#cb16-4"></a>                       <span class="st">&#39;n&#39;</span> =<span class="st"> &#39;Anzahl Personen&#39;</span>),</span>
+<span id="cb16-5"><a href="#cb16-5"></a>     <span class="st">&#39;group&#39;</span> =<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;A&#39;</span> =<span class="st"> &#39;0 bis 5 Jahre&#39;</span>,</span>
+<span id="cb16-6"><a href="#cb16-6"></a>                    <span class="st">&#39;B&#39;</span> =<span class="st"> &#39;6 bis 10 Jahre&#39;</span>),</span>
+<span id="cb16-7"><a href="#cb16-7"></a>     <span class="st">&#39;group_2&#39;</span> =<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;Y&#39;</span> =<span class="st"> &#39;weiblich&#39;</span>,</span>
+<span id="cb16-8"><a href="#cb16-8"></a>                      <span class="st">&#39;Z&#39;</span> =<span class="st"> &#39;männlich&#39;</span>))</span></code></pre></div>
+</div>
+<div id="description" class="section level2">
+<h2><span class="header-section-number">3.11</span> description</h2>
+<p>Was muss man zu den Daten insgesamt, zu den Merkmalen und den Werten noch wissen?</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Beispieltabelle D</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">list</span>(<span class="st">&#39;all&#39;</span> =<span class="st"> &#39;Dieser Datensatz enthält alle Fälle, für die eine Tätigkeit nachgewiesen wurde.&#39;</span>,</span>
+<span id="cb17-3"><a href="#cb17-3"></a>     <span class="st">&#39;dim&#39;</span> =<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;group&#39;</span> =<span class="st"> &#39;Das Alter ist berechnet als Differenz zwischen Geburtsdatum und 15. August 2020.&#39;</span>,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>                  <span class="st">&#39;group_1&#39;</span> =<span class="st"> &#39;Im Datensatz sind keine Personen des dritten Geschlechts vertreten.&#39;</span>),</span>
+<span id="cb17-5"><a href="#cb17-5"></a>     <span class="st">&#39;group&#39;</span> =<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;A&#39;</span> =<span class="st"> &#39;Rein technisch sind erst Personen ab einem Alter von 6 Monaten erfasst.&#39;</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="technische-repräsentation" class="section level1">
+<h1><span class="header-section-number">4</span> technische Repräsentation</h1>
+<p>Im Package <code>biplaRmeta</code> sind drei <a href="https://adv-r.hadley.nz/r6.html">S6-Klassen</a> definiert. Damit werden die Metainformationen abgebildet.</p>
+<p>Zudem ist definiert, welches Feld die Informationen in welcher Form abspeichert:</p>
+<table style="width:72%;">
+<colgroup>
+<col width="25%"></col>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="12%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">field</th>
+<th align="left">class</th>
+<th align="left">depth</th>
+<th align="left">length</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>title</strong></td>
+<td align="left">LanguageString</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>source_name</strong></td>
+<td align="left">LanguageString</td>
+<td align="left">1</td>
+<td align="left">Inf</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>source_url</strong></td>
+<td align="left">character</td>
+<td align="left">1</td>
+<td align="left">Inf</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>issued</strong></td>
+<td align="left">POSIXct</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>modified</strong></td>
+<td align="left">POSIXct</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>units</strong></td>
+<td align="left">LanguageString</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>aggregate</strong></td>
+<td align="left">character</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>dim_order</strong></td>
+<td align="left">character</td>
+<td align="left">1</td>
+<td align="left">Inf</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>hierarchy</strong></td>
+<td align="left">character</td>
+<td align="left">Inf</td>
+<td align="left">Inf</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>labels</strong></td>
+<td align="left">LanguageString</td>
+<td align="left">3</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>description</strong></td>
+<td align="left">LanguageString</td>
+<td align="left">3</td>
+<td align="left">Inf</td>
+</tr>
+</tbody>
+</table>
+<div id="metainfo" class="section level2">
+<h2><span class="header-section-number">4.1</span> <code>MetaInfo</code></h2>
+<p>Diese Klasse repräsentiert die Metainformationen für eine Dateneinheit (z.B. eine Datentabelle).</p>
+<ul>
+<li>fields
+<ul>
+<li><code>$title</code></li>
+<li><code>$source_name</code></li>
+<li><code>$source_url</code></li>
+<li><code>$issued</code></li>
+<li><code>$modified</code></li>
+<li><code>$units</code></li>
+<li><code>$aggregate</code></li>
+<li><code>$dim_order</code></li>
+<li><code>$hierarchy</code></li>
+<li><code>$labels</code></li>
+<li><code>$description</code></li>
+</ul></li>
+<li>methods
+<ul>
+<li><code>$initialize()</code>, alias: <code>$new()</code></li>
+<li><code>$print()</code></li>
+</ul></li>
+<li>active bindings
+<ul>
+<li><code>$list</code></li>
+<li><code>$json</code></li>
+<li><code>$is.na</code></li>
+<li><code>$printf</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>a &lt;-<span class="st"> </span>MetaInfo<span class="op">$</span><span class="kw">new</span>(<span class="dt">title =</span> <span class="st">&#39;Titel&#39;</span>, <span class="dt">source_url =</span> <span class="st">&#39;https://bi.zh.ch/kindergartenbericht&#39;</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>a</span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt; title: [de] Titel</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; source_url: https://bi.zh.ch/kindergartenbericht</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; modified: 2020-06-22 12:01:49</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a></span>
+<span id="cb18-8"><a href="#cb18-8"></a>a<span class="op">$</span>list</span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt; $title</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a><span class="co">#&gt; $title$de</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; [1] &quot;Titel&quot;</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt; </span></span>
+<span id="cb18-13"><a href="#cb18-13"></a><span class="co">#&gt; </span></span>
+<span id="cb18-14"><a href="#cb18-14"></a><span class="co">#&gt; $source_url</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a><span class="co">#&gt; [1] &quot;https://bi.zh.ch/kindergartenbericht&quot;</span></span>
+<span id="cb18-16"><a href="#cb18-16"></a><span class="co">#&gt; </span></span>
+<span id="cb18-17"><a href="#cb18-17"></a><span class="co">#&gt; $modified</span></span>
+<span id="cb18-18"><a href="#cb18-18"></a><span class="co">#&gt; [1] &quot;2020-06-22 12:01:49 CEST&quot;</span></span>
+<span id="cb18-19"><a href="#cb18-19"></a></span>
+<span id="cb18-20"><a href="#cb18-20"></a>a<span class="op">$</span>json</span>
+<span id="cb18-21"><a href="#cb18-21"></a><span class="co">#&gt; {&quot;title&quot;:{&quot;de&quot;:[&quot;Titel&quot;]},&quot;source_url&quot;:[&quot;https://bi.zh.ch/kindergartenbericht&quot;],&quot;modified&quot;:[&quot;2020-06-22 12:01:49&quot;]}</span></span>
+<span id="cb18-22"><a href="#cb18-22"></a></span>
+<span id="cb18-23"><a href="#cb18-23"></a>a<span class="op">$</span>is.na</span>
+<span id="cb18-24"><a href="#cb18-24"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb18-25"><a href="#cb18-25"></a></span>
+<span id="cb18-26"><a href="#cb18-26"></a><span class="kw">str</span>(a)</span>
+<span id="cb18-27"><a href="#cb18-27"></a><span class="co">#&gt; Classes &#39;MetaInfo&#39;, &#39;R6&#39; &lt;MetaInfo&gt;</span></span>
+<span id="cb18-28"><a href="#cb18-28"></a><span class="co">#&gt;   Public:</span></span>
+<span id="cb18-29"><a href="#cb18-29"></a><span class="co">#&gt;     aggregate: MetaField, R6</span></span>
+<span id="cb18-30"><a href="#cb18-30"></a><span class="co">#&gt;     clone: function (deep = FALSE) </span></span>
+<span id="cb18-31"><a href="#cb18-31"></a><span class="co">#&gt;     description: MetaField, R6</span></span>
+<span id="cb18-32"><a href="#cb18-32"></a><span class="co">#&gt;     dim_order: MetaField, R6</span></span>
+<span id="cb18-33"><a href="#cb18-33"></a><span class="co">#&gt;     hierarchy: MetaField, R6</span></span>
+<span id="cb18-34"><a href="#cb18-34"></a><span class="co">#&gt;     initialize: function (...) </span></span>
+<span id="cb18-35"><a href="#cb18-35"></a><span class="co">#&gt;     is.na: active binding</span></span>
+<span id="cb18-36"><a href="#cb18-36"></a><span class="co">#&gt;     issued: MetaField, R6</span></span>
+<span id="cb18-37"><a href="#cb18-37"></a><span class="co">#&gt;     json: active binding</span></span>
+<span id="cb18-38"><a href="#cb18-38"></a><span class="co">#&gt;     labels: MetaField, R6</span></span>
+<span id="cb18-39"><a href="#cb18-39"></a><span class="co">#&gt;     list: active binding</span></span>
+<span id="cb18-40"><a href="#cb18-40"></a><span class="co">#&gt;     modified: MetaField, R6</span></span>
+<span id="cb18-41"><a href="#cb18-41"></a><span class="co">#&gt;     print: function () </span></span>
+<span id="cb18-42"><a href="#cb18-42"></a><span class="co">#&gt;     printf: active binding</span></span>
+<span id="cb18-43"><a href="#cb18-43"></a><span class="co">#&gt;     source_name: MetaField, R6</span></span>
+<span id="cb18-44"><a href="#cb18-44"></a><span class="co">#&gt;     source_url: MetaField, R6</span></span>
+<span id="cb18-45"><a href="#cb18-45"></a><span class="co">#&gt;     title: MetaField, R6</span></span>
+<span id="cb18-46"><a href="#cb18-46"></a><span class="co">#&gt;     units: MetaField, R6</span></span>
+<span id="cb18-47"><a href="#cb18-47"></a></span>
+<span id="cb18-48"><a href="#cb18-48"></a>a<span class="op">$</span>title</span>
+<span id="cb18-49"><a href="#cb18-49"></a><span class="co">#&gt; title: [de] Titel</span></span>
+<span id="cb18-50"><a href="#cb18-50"></a></span>
+<span id="cb18-51"><a href="#cb18-51"></a>a<span class="op">$</span>units</span>
+<span id="cb18-52"><a href="#cb18-52"></a><span class="co">#&gt; NA</span></span></code></pre></div>
+</div>
+<div id="metafield" class="section level2">
+<h2><span class="header-section-number">4.2</span> <code>MetaField</code></h2>
+<p>Diese Klasse repräsentiert die Metainformationen eines Feldes.</p>
+<ul>
+<li>fields
+<ul>
+<li><code>$name</code></li>
+<li><code>$data</code></li>
+</ul></li>
+<li>methods
+<ul>
+<li><code>$initialize()</code>, alias: <code>$new()</code></li>
+<li><code>$edit()</code></li>
+<li><code>$sanitize()</code></li>
+<li><code>$check()</code></li>
+<li><code>$head()</code></li>
+<li><code>$clear()</code></li>
+<li><code>$print()</code></li>
+</ul></li>
+<li>active bindings
+<ul>
+<li><code>$list</code></li>
+<li><code>$is.na</code></li>
+<li><code>$printf</code></li>
+</ul></li>
+<li>private
+<ul>
+<li><code>$read_fields()</code></li>
+<li><code>$update_depth()</code></li>
+<li><code>$class</code></li>
+<li><code>$depth</code></li>
+<li><code>$length</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">str</span>(a<span class="op">$</span>title)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt; Classes &#39;MetaField&#39;, &#39;R6&#39; &lt;MetaField&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="co">#&gt;   Public:</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co">#&gt;     check: function (silent = TRUE) </span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt;     clear: function () </span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt;     clone: function (deep = FALSE) </span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt;     data: LanguageString, R6</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt;     edit: function (data) </span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt;     head: function (n = 1L) </span></span>
+<span id="cb19-10"><a href="#cb19-10"></a><span class="co">#&gt;     initialize: function (name, data) </span></span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="co">#&gt;     is.na: active binding</span></span>
+<span id="cb19-12"><a href="#cb19-12"></a><span class="co">#&gt;     list: active binding</span></span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="co">#&gt;     name: title</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a><span class="co">#&gt;     print: function () </span></span>
+<span id="cb19-15"><a href="#cb19-15"></a><span class="co">#&gt;     printf: active binding</span></span>
+<span id="cb19-16"><a href="#cb19-16"></a><span class="co">#&gt;     sanitize: function () </span></span>
+<span id="cb19-17"><a href="#cb19-17"></a><span class="co">#&gt;   Private:</span></span>
+<span id="cb19-18"><a href="#cb19-18"></a><span class="co">#&gt;     class: LanguageString</span></span>
+<span id="cb19-19"><a href="#cb19-19"></a><span class="co">#&gt;     depth: 1</span></span>
+<span id="cb19-20"><a href="#cb19-20"></a><span class="co">#&gt;     length: 1</span></span>
+<span id="cb19-21"><a href="#cb19-21"></a><span class="co">#&gt;     read_fields: function () </span></span>
+<span id="cb19-22"><a href="#cb19-22"></a><span class="co">#&gt;     update_depth: function ()</span></span>
+<span id="cb19-23"><a href="#cb19-23"></a></span>
+<span id="cb19-24"><a href="#cb19-24"></a>a<span class="op">$</span>title<span class="op">$</span><span class="kw">edit</span>(<span class="st">&#39;neuer Titel&#39;</span>)</span>
+<span id="cb19-25"><a href="#cb19-25"></a></span>
+<span id="cb19-26"><a href="#cb19-26"></a>a<span class="op">$</span>units<span class="op">$</span>is.na</span>
+<span id="cb19-27"><a href="#cb19-27"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb19-28"><a href="#cb19-28"></a></span>
+<span id="cb19-29"><a href="#cb19-29"></a>a<span class="op">$</span>units<span class="op">$</span><span class="kw">edit</span>(<span class="kw">list</span>(<span class="st">&#39;all&#39;</span> =<span class="st"> &#39;Anzahl&#39;</span>))</span>
+<span id="cb19-30"><a href="#cb19-30"></a></span>
+<span id="cb19-31"><a href="#cb19-31"></a>a</span>
+<span id="cb19-32"><a href="#cb19-32"></a><span class="co">#&gt; title: [de] neuer Titel</span></span>
+<span id="cb19-33"><a href="#cb19-33"></a><span class="co">#&gt; source_url: https://bi.zh.ch/kindergartenbericht</span></span>
+<span id="cb19-34"><a href="#cb19-34"></a><span class="co">#&gt; modified: 2020-06-22 12:01:49</span></span>
+<span id="cb19-35"><a href="#cb19-35"></a><span class="co">#&gt; units:</span></span>
+<span id="cb19-36"><a href="#cb19-36"></a><span class="co">#&gt;     all: </span></span>
+<span id="cb19-37"><a href="#cb19-37"></a><span class="co">#&gt;         [de] Anzahl</span></span></code></pre></div>
+</div>
+<div id="languagestring" class="section level2">
+<h2><span class="header-section-number">4.3</span> <code>LanguageString</code></h2>
+<p>Diese Klasse repräsentiert einen oder mehrere sprachliche Ausdrücke in mehreren Sprachen.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>biplaRmeta<span class="op">:::</span>langs</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#&gt;   code  caption</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co">#&gt; 1   de  Deutsch</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#&gt; 2   en  English</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="co">#&gt; 3   fr Français</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="co">#&gt; 4   it Italiano</span></span></code></pre></div>
+<ul>
+<li><p>fields <em>– none –</em></p></li>
+<li><p>methods</p>
+<ul>
+<li><code>$initialize()</code>, alias: <code>$new()</code></li>
+<li><code>$edit()</code></li>
+<li><code>$head()</code></li>
+<li><code>$clear()</code></li>
+<li><code>$print()</code></li>
+</ul></li>
+<li><p>active bindings</p>
+<ul>
+<li><code>$list</code></li>
+<li><code>$json</code></li>
+<li><code>$xml</code></li>
+<li><code>$is.na</code></li>
+<li><code>$printf</code></li>
+</ul></li>
+<li><p>private</p>
+<ul>
+<li><code>$edit_single()</code></li>
+<li><code>$xml_single()</code></li>
+<li><code>$data</code></li>
+<li><code>$length</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">str</span>(a<span class="op">$</span>title<span class="op">$</span>data)</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="co">#&gt; Classes &#39;LanguageString&#39;, &#39;R6&#39; &lt;LanguageString&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="co">#&gt;   Public:</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="co">#&gt;     clear: function () </span></span>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="co">#&gt;     clone: function (deep = FALSE) </span></span>
+<span id="cb21-6"><a href="#cb21-6"></a><span class="co">#&gt;     edit: function (...) </span></span>
+<span id="cb21-7"><a href="#cb21-7"></a><span class="co">#&gt;     head: function (n = 1L) </span></span>
+<span id="cb21-8"><a href="#cb21-8"></a><span class="co">#&gt;     initialize: function (...) </span></span>
+<span id="cb21-9"><a href="#cb21-9"></a><span class="co">#&gt;     is.na: active binding</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a><span class="co">#&gt;     json: active binding</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="co">#&gt;     list: active binding</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a><span class="co">#&gt;     print: function () </span></span>
+<span id="cb21-13"><a href="#cb21-13"></a><span class="co">#&gt;     printf: active binding</span></span>
+<span id="cb21-14"><a href="#cb21-14"></a><span class="co">#&gt;     xml: active binding</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a><span class="co">#&gt;   Private:</span></span>
+<span id="cb21-16"><a href="#cb21-16"></a><span class="co">#&gt;     data: list</span></span>
+<span id="cb21-17"><a href="#cb21-17"></a><span class="co">#&gt;     edit_single: function (lang, chr) </span></span>
+<span id="cb21-18"><a href="#cb21-18"></a><span class="co">#&gt;     length: 1</span></span>
+<span id="cb21-19"><a href="#cb21-19"></a><span class="co">#&gt;     xml_single: function (lang, chr)</span></span>
+<span id="cb21-20"><a href="#cb21-20"></a></span>
+<span id="cb21-21"><a href="#cb21-21"></a>a<span class="op">$</span>title<span class="op">$</span>data<span class="op">$</span>list</span>
+<span id="cb21-22"><a href="#cb21-22"></a><span class="co">#&gt; $de</span></span>
+<span id="cb21-23"><a href="#cb21-23"></a><span class="co">#&gt; [1] &quot;neuer Titel&quot;</span></span>
+<span id="cb21-24"><a href="#cb21-24"></a></span>
+<span id="cb21-25"><a href="#cb21-25"></a>a<span class="op">$</span>title<span class="op">$</span>data<span class="op">$</span>xml</span>
+<span id="cb21-26"><a href="#cb21-26"></a><span class="co">#&gt; [1] &quot;&lt;xml_tag xml:lang=\&quot;de\&quot;&gt;neuer Titel&lt;/xml_tag&gt;&quot;</span></span>
+<span id="cb21-27"><a href="#cb21-27"></a></span>
+<span id="cb21-28"><a href="#cb21-28"></a>a<span class="op">$</span>title<span class="op">$</span>data<span class="op">$</span><span class="kw">edit</span>(<span class="dt">fr =</span> <span class="st">&#39;nouveau titre&#39;</span>)</span>
+<span id="cb21-29"><a href="#cb21-29"></a></span>
+<span id="cb21-30"><a href="#cb21-30"></a>a<span class="op">$</span>title<span class="op">$</span>list</span>
+<span id="cb21-31"><a href="#cb21-31"></a><span class="co">#&gt; $title</span></span>
+<span id="cb21-32"><a href="#cb21-32"></a><span class="co">#&gt; $title$de</span></span>
+<span id="cb21-33"><a href="#cb21-33"></a><span class="co">#&gt; [1] &quot;neuer Titel&quot;</span></span>
+<span id="cb21-34"><a href="#cb21-34"></a><span class="co">#&gt; </span></span>
+<span id="cb21-35"><a href="#cb21-35"></a><span class="co">#&gt; $title$fr</span></span>
+<span id="cb21-36"><a href="#cb21-36"></a><span class="co">#&gt; [1] &quot;nouveau titre&quot;</span></span>
+<span id="cb21-37"><a href="#cb21-37"></a></span>
+<span id="cb21-38"><a href="#cb21-38"></a><span class="kw">cat</span>(a<span class="op">$</span>title<span class="op">$</span>data<span class="op">$</span>xml, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb21-39"><a href="#cb21-39"></a><span class="co">#&gt; &lt;xml_tag xml:lang=&quot;de&quot;&gt;neuer Titel&lt;/xml_tag&gt;</span></span>
+<span id="cb21-40"><a href="#cb21-40"></a><span class="co">#&gt; &lt;xml_tag xml:lang=&quot;fr&quot;&gt;nouveau titre&lt;/xml_tag&gt;</span></span></code></pre></div>
+</div>
+</div>
+<div id="beispiele" class="section level1">
+<h1><span class="header-section-number">5</span> Beispiele</h1>
+<p>siehe R-Scripts im Ordner /tests/testthat</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
