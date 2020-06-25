@@ -24,8 +24,7 @@ library(pander)
 ```
 
 ```{r setup, echo = F}
-# library(biplaRmeta)
-devtools::load_all()
+library(biplaRmeta)
 ```
 
 # Package installieren{-}
@@ -163,7 +162,7 @@ list('total_sus' = 'Anzahl Schülerinnen und Schüler',
 
 ## aggregate
 
-Wie sind die quantitativen Angaben in den Daten aggretiert/aggregierbar?
+Wie sind die quantitativen Angaben in den Daten aggretiert?
 
 ```{r ex_aggregate_1b, eval = F}
 # Beispieltabelle A
