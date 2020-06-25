@@ -27,29 +27,6 @@ library(pander)
 library(biplaRmeta)
 ```
 
-# Package installieren{-}
-
-Das Package `biplaRmeta` setzt ein Element voraus:
-
-1. aktuelles und personalisiertes .Rprofile im R_USER Verzeichnis
-    - Vorlage und Installationsanweisung verfügbar unter https://github.com/bildungsmonitoringZH/Rconfig
-
-Zur Installation gibt es zwei Varianten:
-
-1. Die jeweils aktuellste Version des Packages ist zur Installation auf dem G:\ abgelegt
-
-```{r install, eval = FALSE}
-install.packages("G:/03_Arbeiten/Projekte/Statistikprogramm R/packages/biplaRmeta_1.0.zip", repos = NULL, type = "source")
-```
-
-2. Das Package kann via RStudio/git in den lokalen `Rworkspace` geklont und von da installiert werden.
-
-```{r install_altntv, eval = FALSE}
-# cd ~/Documents/Rworkspace
-# git clone https://www.dev.statistik.zh.ch:3000/KTZH-Bildung/biplaRmeta.git ./biplaRmeta
-devtools::install(dependencies = FALSE, build_vignettes = TRUE)
-```
-
 # Was sind Daten?
 
 Die hier präsentierte Konzeption von Metainformationen für Daten ist grundsätzlich nicht an einen spezifischen Typ von Datensatz gekoppelt. Sie ist so allgemein und generisch gehalten, dass sie eine breite Palette von Formen, Typen oder Arten von strukturierten Daten zu beschreiben vermag.
